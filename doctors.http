@@ -1,0 +1,17 @@
+ 
+POST http://localhost:3000/doctors
+Content-type: application/json
+
+{
+    "name": "Luiz Carlos",
+    "last_name": "ALgo",
+    "crm": "32452352"
+}
+
+###
+
+GET http://localhost:3000/doctors
+
+###
+
+DELETE http://localhost:3000/doctors/2
