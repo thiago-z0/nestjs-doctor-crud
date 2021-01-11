@@ -32,25 +32,13 @@ export class DoctorController {
     )
     body: DoctorDto,
   ): Promise<Doctor> {
-    const { name, last_name, crm, specialties } = body;
-
-    const specialtiesArray = await Promise.all(
-      specialties.map((id) => {
-        this.specialtyRepo.findOneOrFail(id);
-      }),
-    );
+    const { name, last_name, crm } = body;
 
     const doctor = this.doctorRepo.create();
 
     doctor.name = name;
     doctor.last_name = last_name;
     doctor.crm = crm;
-
-    console.log(specialtiesArray);
-
-    doctor.doctorHasSpecialties.specialty;
-
-    console.log('passou');
 
     return this.doctorRepo.save(doctor);
   }

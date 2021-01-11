@@ -33,5 +33,5 @@ export class DoctorDto {
     each: true,
   })
   @IsNotEmpty()
-  specialties: number[];
+  specialties?: number[];
 }
