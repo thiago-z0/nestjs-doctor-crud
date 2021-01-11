@@ -5,12 +5,17 @@ Content-type: application/json
 {
     "name": "Luiz Carlos",
     "last_name": "ALgo",
-    "crm": "32452352"
+    "crm": "1234567890",
+    "specialties": [1]
 }
 
 ###
 
 GET http://localhost:3000/doctors
+
+###
+
+GET http://localhost:3000/doctors/4
 
 ###
 

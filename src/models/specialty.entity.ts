@@ -8,24 +8,19 @@ import {
   OneToMany,
   ManyToMany,
   JoinTable,
+  JoinTableOptions,
 } from 'typeorm';
-
-import { DoctorHasSpecialties } from './doctor_has_specialtes.entity';
 import { Exclude } from 'class-transformer';
+import { DoctorHasSpecialties } from './doctor_has_specialtes.entity';
+import { Doctor } from './doctor.entity';
 
 @Entity()
-export class Doctor {
+export class Specialty {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
-
-  @Column({ name: 'last_name' })
-  last_name: string;
-
-  @Column()
-  crm: string;
 
   @Exclude()
   @CreateDateColumn()
@@ -41,7 +36,7 @@ export class Doctor {
 
   @OneToMany(
     () => DoctorHasSpecialties,
-    (doctorHasSpecialties) => doctorHasSpecialties.doctor,
+    (doctorHasSpecialties) => doctorHasSpecialties.specialty,
   )
   @JoinTable()
   doctorHasSpecialties: DoctorHasSpecialties;
