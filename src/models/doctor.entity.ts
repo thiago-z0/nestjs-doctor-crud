@@ -5,12 +5,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  OneToMany,
   ManyToMany,
   JoinTable,
 } from 'typeorm';
 
-import { DoctorHasSpecialties } from './doctor_has_specialtes.entity';
+import { Specialty } from './specialty.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -39,10 +38,15 @@ export class Doctor {
   @DeleteDateColumn()
   deleted_at: Date;
 
-  @OneToMany(
-    () => DoctorHasSpecialties,
-    (doctorHasSpecialties) => doctorHasSpecialties.doctor,
-  )
-  @JoinTable()
-  doctorHasSpecialties: DoctorHasSpecialties;
+  @ManyToMany(() => Specialty)
+  @JoinTable({
+    joinColumns: [
+      {
+        name: 'doctor_id',
+        referencedColumnName: 'id',
+      },
+    ],
+    name: 'doctor_has_specialties',
+  })
+  specialties: Specialty[];
 }

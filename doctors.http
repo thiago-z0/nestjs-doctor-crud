@@ -3,10 +3,10 @@ POST http://localhost:3000/doctors
 Content-type: application/json
 
 {
-    "name": "Luiz Carlos",
-    "last_name": "ALgo",
-    "crm": "1234567890",
-    "specialties": [1]
+    "name": "Thiago",
+    "last_name": "Correia",
+    "crm": "346436",
+    "specialties": [1, 3]
 }
 
 ###

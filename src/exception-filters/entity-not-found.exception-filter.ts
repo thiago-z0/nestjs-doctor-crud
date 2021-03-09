@@ -3,17 +3,25 @@ import { EntityNotFoundError } from 'typeorm/error/EntityNotFoundError';
 import { Response } from 'express';
 
 export class EntityNotFoundExceptionFilter implements ExceptionFilter {
-  catch(exception: EntityNotFoundError, host: ArgumentsHost) {
-    const ctx = host.switchToHttp();
+  catch(exception: EntityNotFoundError | any, host: ArgumentsHost) {
+    console.log(exception);
 
-    const response = ctx.getResponse<Response>();
+    if (exception instanceof EntityNotFoundError) {
+      const ctx = host.switchToHttp();
 
-    return response.status(404).json({
-      message: {
+      const response = ctx.getResponse<Response>();
+
+      return response.status(404).json({
         statusCode: 404,
         error: 'Not Found',
         message: exception.message,
-      },
-    });
+      });
+    } else {
+      const ctx = host.switchToHttp();
+
+      const response = ctx.getResponse<Response>();
+
+      return response.status(exception.status).json(exception.response);
+    }
   }
 }

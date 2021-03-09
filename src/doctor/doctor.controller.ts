@@ -7,6 +7,7 @@ import {
   Param,
   HttpCode,
   ValidationPipe,
+  HttpStatus,
 } from '@nestjs/common';
 import { Doctor } from '../models/doctor.entity';
 import { Specialty } from '../models/specialty.entity';
@@ -27,25 +28,28 @@ export class DoctorController {
   async insert(
     @Body(
       new ValidationPipe({
-        errorHttpStatusCode: 422,
+        errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
       }),
     )
     body: DoctorDto,
   ): Promise<Doctor> {
-    const { name, last_name, crm } = body;
+    const specialties = await Promise.all(
+      body.specialties.map((id) => this.specialtyRepo.findOneOrFail(id)),
+    );
 
-    const doctor = this.doctorRepo.create();
-
-    doctor.name = name;
-    doctor.last_name = last_name;
-    doctor.crm = crm;
+    const doctor = this.doctorRepo.create({
+      ...body,
+      specialties,
+    });
 
     return this.doctorRepo.save(doctor);
   }
 
   @Get()
   async index(): Promise<Doctor[]> {
-    return this.doctorRepo.find();
+    return this.doctorRepo.find({
+      relations: ['specialties'],
+    });
   }
 
   @Get(':id')
